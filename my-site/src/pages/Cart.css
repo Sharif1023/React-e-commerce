@@ -1,0 +1,23 @@
+/* Fade enter: initial state */
+.fade-enter {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+/* Fade enter active: transition to final */
+.fade-enter-active {
+  opacity: 1;
+  transform: translateX(0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+}
+
+/* Fade exit: initial state when leaving */
+.fade-exit {
+  opacity: 1;
+  transform: translateX(0);
+}
+/* Fade exit active: transition to leave */
+.fade-exit-active {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 300ms ease-in, transform 300ms ease-in;
+}
