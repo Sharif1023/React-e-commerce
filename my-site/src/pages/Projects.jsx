@@ -24,6 +24,18 @@ const Projects = () => (
           🚚 <strong>Enhancing Delivery Logistics</strong><br />
           Partnering with reliable couriers for faster, nationwide delivery.
         </li>
+        <li className="list-group-item">
+          📱 <strong>Developing Mobile Shopping App</strong><br />
+          A seamless, on-the-go experience with exclusive app-only deals.
+        </li>
+        <li className="list-group-item">
+          🌱 <strong>Eco-Friendly Packaging</strong><br />
+          Reducing plastic waste by switching to biodegradable packaging.
+        </li>
+        <li className="list-group-item">
+          🤝 <strong>Supporting Local Communities</strong><br />
+          Collaborating with local artisans and small businesses to showcase their products.
+        </li>
       </ul>
     </div>
   </section>
