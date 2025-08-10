@@ -27,7 +27,7 @@ const Checkout = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Payment-specific validation
@@ -47,11 +47,32 @@ const Checkout = () => {
       }
     }
 
-    // (Here you could send order + payment info to your server)
+    // Prepare order data
+    const orderData = {
+      ...form,
+      items: cartItems,
+      total: totalPrice
+    };
 
-    alert(`✅ Order Placed Successfully via ${form.paymentMethod.toUpperCase()}!`);
-    clearCart();
-    navigate('/success');
+    try {
+      const res = await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(orderData)
+      });
+
+      const data = await res.json();
+      if (res.ok) {
+        alert(`✅ Order Placed Successfully! Order ID: ${data.orderId}`);
+        clearCart();
+        navigate('/success');
+      } else {
+        alert("❌ Order failed: " + data.message);
+      }
+    } catch (error) {
+      console.error("Order Error:", error);
+      alert("❌ Something went wrong!");
+    }
   };
 
   return (
@@ -126,7 +147,7 @@ const Checkout = () => {
                 </>
               )}
 
-              {/* bKash Inputs: Number + Transaction ID */}
+              {/* bKash Inputs */}
               {form.paymentMethod === 'bkash' && (
                 <>
                   <div className="col-md-6">
@@ -141,7 +162,6 @@ const Checkout = () => {
                       value={form.bkashNumber}
                       onChange={handleChange}
                     />
-                    <small className="text-muted">Enter the phone number used for the transfer.</small>
                   </div>
                   <div className="col-md-6">
                     <label className="form-label">bKash Transaction ID</label>
@@ -154,12 +174,11 @@ const Checkout = () => {
                       value={form.bkashTrx}
                       onChange={handleChange}
                     />
-                    <small className="text-muted">Provide the transaction ID from your bKash receipt.</small>
                   </div>
                 </>
               )}
 
-              {/* Nagad Inputs: Number + Transaction ID */}
+              {/* Nagad Inputs */}
               {form.paymentMethod === 'nagad' && (
                 <>
                   <div className="col-md-6">
@@ -174,7 +193,6 @@ const Checkout = () => {
                       value={form.nagadNumber}
                       onChange={handleChange}
                     />
-                    <small className="text-muted">Enter the phone number used for the transfer.</small>
                   </div>
                   <div className="col-md-6">
                     <label className="form-label">Nagad Transaction ID</label>
@@ -187,7 +205,6 @@ const Checkout = () => {
                       value={form.nagadTrx}
                       onChange={handleChange}
                     />
-                    <small className="text-muted">Provide the transaction ID from your Nagad receipt.</small>
                   </div>
                 </>
               )}
