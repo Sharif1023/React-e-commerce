@@ -1,3 +1,4 @@
+
 // src/components/CategorySelector.jsx
 import React from 'react';
 import { categories } from '../data/categories';
