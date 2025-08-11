@@ -1,12 +1,15 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { useCart } from '../context/CartContext';
 import { Link } from 'react-router-dom';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import './Cart.css'; // We'll create this CSS file for animations
+import './Cart.css';
 
 const Cart = () => {
   const { cartItems, updateQty, removeFromCart } = useCart();
   const total = cartItems.reduce((sum, item) => sum + item.price * item.qty, 0);
+
+  // ✅ Create a persistent object to hold refs for all rows
+  const rowRefs = useRef({});
 
   return (
     <div className="container py-5" style={{ maxWidth: '900px' }}>
@@ -29,51 +32,71 @@ const Cart = () => {
                 </tr>
               </thead>
               <TransitionGroup component="tbody">
-                {cartItems.map((item) => (
-                  <CSSTransition
-                    key={item.id}
-                    timeout={300}
-                    classNames="fade"
-                  >
-                    <tr>
-                      <td>
-                        <div className="d-flex align-items-center gap-3">
-                          {item.image && (
-                            <img
-                              src={item.image}
-                              alt={item.title}
-                              style={{ width: '60px', height: '60px', objectFit: 'cover', borderRadius: '6px' }}
-                            />
-                          )}
-                          <span className="fw-semibold">{item.title}</span>
-                        </div>
-                      </td>
-                      <td className="text-primary fw-semibold">${item.price.toFixed(2)}</td>
-                      <td>
-                        <input
-                          type="number"
-                          min="1"
-                          value={item.qty}
-                          onChange={(e) => {
-                            const val = parseInt(e.target.value);
-                            if (val >= 1) updateQty(item.id, val);
-                          }}
-                          className="form-control form-control-sm"
-                          style={{ maxWidth: '80px' }}
-                        />
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => removeFromCart(item.id)}
-                          className="btn btn-outline-danger btn-sm"
-                          aria-label={`Remove ${item.title} from cart`}
-                        >
-                          Remove
-                        </button>
-                      </td>
-                    </tr>
-                  </CSSTransition>
-                ))}
+                {cartItems.map((item) => {
+                  // ✅ Create ref only if it doesn't exist for this item
+                  if (!rowRefs.current[item.id]) {
+                    rowRefs.current[item.id] = React.createRef();
+                  }
+
+                  const imageToShow = Array.isArray(item.images) && item.images.length > 0
+                    ? item.images[0]
+                    : item.image;
+
+                  return (
+                    <CSSTransition
+                      key={item.id}
+                      timeout={300}
+                      classNames="fade"
+                      nodeRef={rowRefs.current[item.id]}
+                    >
+                      <tr ref={rowRefs.current[item.id]}>
+                        <td>
+                          <div className="d-flex align-items-center gap-3">
+                            {imageToShow && (
+                              <Link to={`/product/${item.id}`}>
+                                <img
+                                  src={imageToShow}
+                                  alt={item.title || item.name}
+                                  style={{
+                                    width: '60px',
+                                    height: '60px',
+                                    objectFit: 'cover',
+                                    borderRadius: '6px',
+                                    cursor: 'pointer'
+                                  }}
+                                />
+                              </Link>
+                            )}
+                            <span className="fw-semibold">{item.title || item.name}</span>
+                          </div>
+                        </td>
+                        <td className="text-primary fw-semibold">${item.price.toFixed(2)}</td>
+                        <td>
+                          <input
+                            type="number"
+                            min="1"
+                            value={item.qty}
+                            onChange={(e) => {
+                              const val = parseInt(e.target.value);
+                              if (val >= 1) updateQty(item.id, val);
+                            }}
+                            className="form-control form-control-sm"
+                            style={{ maxWidth: '80px' }}
+                          />
+                        </td>
+                        <td>
+                          <button
+                            onClick={() => removeFromCart(item.id)}
+                            className="btn btn-outline-danger btn-sm"
+                            aria-label={`Remove ${item.title || item.name} from cart`}
+                          >
+                            Remove
+                          </button>
+                        </td>
+                      </tr>
+                    </CSSTransition>
+                  );
+                })}
               </TransitionGroup>
             </table>
           </div>
