@@ -28,12 +28,30 @@ export default function ProductDetails() {
   ))}
 </div>
 
-            <button className="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
-              <span className="carousel-control-prev-icon"></span>
-            </button>
-            <button className="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
-              <span className="carousel-control-next-icon"></span>
-            </button>
+            <button
+  className="carousel-control-prev"
+  type="button"
+  data-bs-target="#carouselExample"
+  data-bs-slide="prev"
+>
+  <span
+    className="carousel-control-prev-icon"
+    style={{ filter: "invert(1)" }} // ✅ makes it black
+  ></span>
+</button>
+
+<button
+  className="carousel-control-next"
+  type="button"
+  data-bs-target="#carouselExample"
+  data-bs-slide="next"
+>
+  <span
+    className="carousel-control-next-icon"
+    style={{ filter: "invert(1)" }} // ✅ makes it black
+  ></span>
+</button>
+
           </div>
         </div>
 
