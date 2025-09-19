@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom'; // ✅ Add this for navigation
 import { products } from '../data/products';
 import { useCart } from '../context/CartContext';
 
@@ -24,13 +25,29 @@ const ProductList = ({ selectedCategory, selectedSubcategory, selectedSubsubcate
           filtered.map(product => (
             <div className="col-md-4 mb-4" key={product.id}>
               <div className="card h-100 shadow">
-                <img src={product.image} className="card-img-top" alt={product.name} />
+                
+                {/* ✅ Clicking the image opens product details */}
+                <Link to={`/product/${product.id}`}>
+                  <img 
+                    src={product.images ? product.images[0] : product.image} 
+                    className="card-img-top" 
+                    alt={product.name} 
+                  />
+                </Link>
+
                 <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{product.name}</h5>
+                  {/* ✅ Clicking title also opens details */}
+                  <Link to={`/product/${product.id}`} className="text-decoration-none text-dark">
+                    <h5 className="card-title">{product.name}</h5>
+                  </Link>
+
                   <p className="card-text">
                     <strong>Price:</strong> ${product.price}<br />
-                    <small className="text-muted">{product.category} &gt; {product.subcategory} &gt; {product.subsubcategory}</small>
+                    <small className="text-muted">
+                      {product.category} &gt; {product.subcategory} &gt; {product.subsubcategory}
+                    </small>
                   </p>
+
                   <button
                     className="btn btn-primary mt-auto"
                     onClick={() => addToCart(product)}

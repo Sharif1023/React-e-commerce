@@ -6,17 +6,31 @@ export const products = [
     category: 'Electronics',
     subcategory: 'Mobile Phones',
     subsubcategory: 'Smartphones',
-    image: 'https://adminapi.applegadgetsbd.com/storage/media/large/iPhone-14-Pro-Deep-Purple-7300.jpg'
+    images: [
+      'https://adminapi.applegadgetsbd.com/storage/media/large/iPhone-14-Pro-Deep-Purple-7300.jpg',
+      'https://assets.nikshanonline.com/wp-content/uploads/2023/09/Apple-iPhone-15-128GB-Blue-7.png',
+      'https://m.media-amazon.com/images/I/71yzJoE7WlL._SL1500_.jpg'
+    ],
+    description: 'The iPhone 14 Pro features a stunning design, powerful performance, and advanced camera system.'
   },
+
+
+
   {
     id: 2,
-    name: 'Feature Phones',
-    price: 150,
+    name: 'iPhone 14 Pro',
+    price: 1500,
     category: 'Electronics',
     subcategory: 'Mobile Phones',
-    subsubcategory: 'Feature Phones',
-    image: 'https://assets.nikshanonline.com/wp-content/uploads/2023/09/Apple-iPhone-15-128GB-Blue-7.png'
+    subsubcategory: 'Smartphones',
+    images: [
+      'https://assets.nikshanonline.com/wp-content/uploads/2023/09/Apple-iPhone-15-128GB-Blue-7.png',
+      'https://assets.nikshanonline.com/wp-content/uploads/2023/09/Apple-iPhone-15-128GB-Blue-7.png',
+      'https://m.media-amazon.com/images/I/71yzJoE7WlL._SL1500_.jpg'
+    ],
+    description: 'The iPhone 14 Pro features a stunning design, powerful performance, and advanced camera system.'
   },
+
   {
     id: 3,
     name: 'Laptop for Gaming',

@@ -12,7 +12,8 @@ const db = mysql.createConnection({
   host: 'localhost',
   user: 'root',   // তোমার MySQL ইউজার
   password: '',   // তোমার MySQL পাসওয়ার্ড
-  database: 'ecommerce_db'
+  database: 'ecommerce_db',
+  multipleStatements: true
 });
 
 // Test DB connection
